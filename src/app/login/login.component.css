@@ -1,0 +1,4 @@
+.bg-gradient {
+	background-image: linear-gradient(SlateGray, white, lightgray, SlateGray);
+	height: 100vh;
+}
