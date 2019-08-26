@@ -34,7 +34,11 @@ export class HomeComponent implements OnInit {
     this.http.get(this.apiurl + '/view').subscribe(data => {
         console.log(data);
         this.toolslist = data;
-
+        let arr = [];
+        for(let key in data){
+           arr.push(data[key]);
+        }
+        console.log(arr);
       });
   }
 
@@ -46,9 +50,18 @@ export class HomeComponent implements OnInit {
         res => {
           console.log('res');
           console.log(res);
-          this.toastr.success('Hello world!', 'Toastr fun!');
+          this.toastr.success('Sucesso!', 'Ferramenta adicionada!');
           this.myModal.nativeElement.click();
           console.log(this.myModal);
+          this.http.get(this.apiurl + '/view').subscribe(data => {
+            console.log(data);
+            this.toolslist = data;
+            let arr = [];
+            for(let key in data){
+               arr.push(data[key]);
+            }
+            console.log(arr);
+          });
         },
         err => {
           console.log('err');
@@ -56,6 +69,31 @@ export class HomeComponent implements OnInit {
         }
       );
       console.log(req);
+  }
+
+  deleteTool(tool_id, name){
+
+    if(confirm("Are you sure to delete " +name)) {
+
+      this.tools = new Tools({
+        id: tool_id,
+      });
+
+      const req = this.http.post(this.apiurl + '/delete', tool_id)
+      .subscribe(
+        res => {
+          console.log('res');
+          console.log(res);
+          this.toastr.success('Sucesso!', 'Ferramenta deletada!');
+        },
+        err => {
+          console.log('err');
+          console.log(err);
+        }
+      );
+      console.log(req);
+
+    }
   }
 
   onFormSubmit(toolsForm: NgForm) {

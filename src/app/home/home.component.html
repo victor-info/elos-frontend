@@ -3,25 +3,29 @@
 <div class="container">
 
   <div class="row col-md-8 title">
-    <span class="tool-title">VUTTR</span>
+    <span class="tool-title tool-header-title">VUTTR</span>
   </div>
   <div class="row col-md-8 title">
-    <span class="tool-description">Very Useful Tools to Remember</span>
+    <span class="tool-description tool-header-description">Very Useful Tools to Remember</span>
   </div>
 
 
   <div class="row col-md-8 search-box">
     <div class="search-item">
-        <input class="search-input" type="text" name="search" /> 
+        <span id="g-search-button"></span>
+        <input class="search-input" type="text" placeholder="search" name="search" /> 
     </div>
-    <div class="search-item">
-        <button id="modalTrigger" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add</button>
+    <div class="search-item open-modal-item">
+        <button id="modalTrigger" type="button" class="btn btn-primary add-item" data-toggle="modal" data-target="#exampleModal">+Add</button>
     </div>
   </div>
-  <div class="row col-md-8 card-area">
-    <div class="card-box">
-      <div class="tool-title">Notion</div>
-      <div class="tool-description">All in one tool to organize teams and ideas. Write, plan, collaborate, and get organized</div>
+  <div class="row col-md-8 card-area" *ngFor="let item of toolslist; index as i">
+    <div class="card-box" >
+      <div class="tool-title">
+        <a href="{{item.link}}">{{ item.title }}</a>
+        <span class="delete-tool" (click)="deleteTool(item.id, item.title)">x</span>
+      </div>
+      <div class="tool-description">{{ item.description }}</div>
       <div class="tools-tags">#organization #planning #collaboration #writting</div>
     </div>
   </div>
@@ -36,16 +40,14 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Modal title</h5>
+          <h5 class="modal-title">Add new tool</h5>
           <button id="closeExampleModal" type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
         </div>
         <div class="modal-body">
-            <form class="form-horizontal" #toolsForm="ngForm" (ngSubmit)="onFormSubmit(toolsForm)">
+            <form class="form-horizontal" #toolsForm="ngForm" (ngSubmit)="onFormSubmit(toolsForm)" >
                 <fieldset>
-                  <legend>Add new tool</legend>
-                 
                     <!--- Tool name Block --->
                     <div class="form-group">
                       <label for="inputEmail">Tool name</label>
@@ -54,7 +56,7 @@
                         id="title"
                         [ngModel] = "tools.title"
                         name="title"
-                        placeholder="Tool name">
+                        class="tool-add-input">
                     </div>
 
                     <!--- Tool link Block --->
@@ -65,7 +67,7 @@
                           id="link"
                           [ngModel] = "tools.link"
                           name="link"
-                          placeholder="link">
+                          class="tool-add-input">
                     </div>
                       
                     <!--- Description Block --->
@@ -76,11 +78,11 @@
                           id="description"
                           [ngModel] = "tools.description"
                           name="description"
-                          placeholder="description">
+                          class="tool-add-input">
                     </div>      
                     <div class="modal-footer">
                         <button type="button" #closeModal class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" >Submit</button>
+                        <button type="submit" class="btn btn-primary" >Add tool</button>
                     </div>
                 </fieldset>
               </form>
